@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Vite + Tailwind v4</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body class="bg-background text-foreground min-h-screen p-8">
+    <h1 class="text-4xl mb-4 font-bold text-primary">Welcome to Vite + Tailwind v4!</h1>
+    <nav class="mb-6">
+      <a href="src/page1.html" class="text-primary hover:text-primary/80 underline mr-4">Page 1</a>
+      <a href="src/page2.html" class="text-primary hover:text-primary/80 underline">Page 2</a>
+    </nav>
+    <div class="bg-card border border-border rounded-md p-6 shadow-sm">
+      <p class="text-lg text-foreground mb-4">This is your main landing page with custom CSS variables!</p>
+      <div class="space-y-4">
+        <div class="bg-secondary text-secondary-foreground p-3 rounded">Secondary color test</div>
+        <div class="bg-muted text-muted-foreground p-3 rounded">Muted color test</div>
+        <div class="bg-accent text-accent-foreground p-3 rounded">Accent color test</div>
+        <button class="bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90 transition-colors">
+          Primary Button
+        </button>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

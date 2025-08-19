@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Variables Test</title>
+    <link rel="stylesheet" href="/src/style.css" />
+    <style>
+        .debug-info {
+            background: white;
+            padding: 20px;
+            margin: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+        .variable-test {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .bg-test { background-color: var(--background); }
+        .fg-test { color: var(--foreground); }
+        .primary-test { background-color: var(--primary); color: var(--primary-foreground); }
+        .border-test { border: 2px solid var(--border); }
+    </style>
+</head>
+<body>
+    <div class="debug-info">
+        <h1>CSS Variables Debug Test</h1>
+        
+        <div class="variable-test bg-test fg-test border-test">
+            Background: var(--background)<br>
+            Foreground: var(--foreground)<br>
+            Border: var(--border)
+        </div>
+        
+        <div class="variable-test primary-test">
+            Primary background with primary-foreground text
+        </div>
+        
+        <div class="variable-test" style="background: var(--secondary); color: var(--secondary-foreground);">
+            Secondary colors
+        </div>
+        
+        <h2>Tailwind Classes Test:</h2>
+        <div class="bg-background text-foreground p-4 border border-border rounded">
+            Tailwind bg-background, text-foreground, border-border
+        </div>
+        
+        <div class="bg-primary text-primary-foreground p-4 rounded mt-2">
+            Tailwind bg-primary, text-primary-foreground
+        </div>
+        
+        <div class="bg-secondary text-secondary-foreground p-4 rounded mt-2">
+            Tailwind bg-secondary, text-secondary-foreground
+        </div>
+    </div>
+
+    <script>
+        // Debug script to check if CSS variables are available
+        console.log('=== CSS Variables Debug ===');
+        const root = document.documentElement;
+        const computedStyle = getComputedStyle(root);
+        
+        const variables = [
+            '--background',
+            '--foreground', 
+            '--primary',
+            '--primary-foreground',
+            '--secondary',
+            '--secondary-foreground',
+            '--border',
+            '--muted',
+            '--accent'
+        ];
+        
+        variables.forEach(variable => {
+            const value = computedStyle.getPropertyValue(variable).trim();
+            console.log(`${variable}: ${value || 'NOT FOUND'}`);
+        });
+        
+        // Test if Tailwind custom colors are available
+        console.log('=== Tailwind Custom Colors ===');
+        const testDiv = document.createElement('div');
+        testDiv.className = 'bg-background text-foreground';
+        document.body.appendChild(testDiv);
+        const testStyles = getComputedStyle(testDiv);
+        console.log('bg-background computed:', testStyles.backgroundColor);
+        console.log('text-foreground computed:', testStyles.color);
+        document.body.removeChild(testDiv);
+    </script>
+</body>
+</html>
