@@ -85,7 +85,7 @@ async function initializePyodide(eventData) {
   const { id,files,blobFiles, wheelFiles, drawCanvas,type } = eventData;
 
   self.pyodide = await loadPyodide({
-    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.28.1/full",
+    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.27.2/full",
     stdout: pythonConsoleStdOut,
   });
   await self.pyodide.loadPackage(["micropip"]);

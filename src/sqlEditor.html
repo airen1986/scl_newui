@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Primary Meta Tags -->
+    <title>Editor</title>
+    <meta name="viewport" content="width=1024, initial-scale=1, shrink-to-fit=no">
+    <meta name="title" content="Compute Lite">
+    <meta name="author" content="SCL">
+    <meta name="description" content="Compute in Browser">
+    <meta name="keywords" content="compute lite, edge compute, edge data, macro in browser, compute in browser, wasm" />
+    <link rel="canonical" href="https://www.ComputeLite.com">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.ComputeLite.com">
+    <meta property="og:title" content="Compute Lite">
+    <meta property="og:description" content="Compute in Browser">
+    <meta property="og:image" content="assets/img/favicon/summence.svg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.ComputeLite.com">
+    <meta property="twitter:title" content="Compute Lite">
+    <meta property="twitter:description" content="Compute in Browser">
+    <meta property="twitter:image" content="assets/img/favicon/summence.svg">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="120x120" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32"
+    href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16"
+    href="favicon.ico">
+    <link rel="mask-icon" href="favicon.ico" color="#ffffff">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+
+   
+    <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <main>
+        <div id="mainDiv" class="transition-all duration-500">
+            <div id="tableDiv" class="w-full">
+                <!-- SQL Sidebar -->
+                <div id="displayTable" class="relative">
+                <!-- Sidebar toggle button -->
+                <button
+                    id="sidebarBtn"
+                    class="btn btn-primary float-right"
+                >
+                    <span class="fas text-sm">SQL</span>
+                </button>
+
+                <!-- Sidebar -->
+                <div
+                    id="sidebarDiv"
+                    class="sidebar1 flex flex-col flex-grow bg-card border border-border rounded-md shadow-sm p-4"
+                >
+                    <!-- Buttons -->
+                    <div class="flex space-x-2 mb-3">
+                        <button id="editor-button" class="btn btn-primary">
+                            <span class="fas fa-play"></span>
+                        </button>
+                        <button id="logButton" class="btn btn-primary">Log</button>
+                        <button id="editorButton" class="btn btn-primary">Editor</button>
+                        <button
+                            id="copyBtn"
+                            class="btn btn-primary hidden"
+                            title="Copy to clipboard"
+                        >
+                            <span class="fa-regular fa-clipboard"></span>
+                        </button>
+                    </div>
+
+                    <!-- Editor & Log -->
+                    <div class="flex-1 overflow-y-auto">
+                    <!-- SQL Editor -->
+                    <div id="editorDiv" class="mb-3">
+                        <textarea
+                        id="editorText"
+                        class="w-full h-40 rounded-md border border-border p-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary"
+                        placeholder="Write your SQL query..."
+                        ></textarea>
+                        <p class="mt-2">
+                        <strong id="solutionMsg"></strong>
+                        </p>
+                    </div>
+
+                    <!-- Log Table -->
+                    <div
+                        id="logtableDiv"
+                        class="hidden max-h-[70vh] overflow-y-auto border border-border rounded-md"
+                    >
+                        <table class="table w-full border-collapse">
+                        <thead class="bg-muted text-xs uppercase text-muted-foreground">
+                            <tr>
+                            <th class="px-3 py-2">LOGTIME</th>
+                            <th class="px-3 py-2">QUERY_SQL</th>
+                            <th class="px-3 py-2">MESSAGE</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logTable"></tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Data Loader -->
+                <div id="data-loader" class="hidden absolute inset-0 flex items-center justify-center">
+                    <div class="loader"></div>
+                </div>
+
+                <!-- Data Table -->
+                <table
+                    id="editortableDiv"
+                    class="table table-bordered w-auto border border-border rounded-md text-sm"
+                >
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+                </div>
+
+                <!-- Footer Controls -->
+                <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 border-t border-border pt-3">
+                    <div class="flex items-center space-x-4 overflow-x-auto">
+                        <button id="excelDownloadBtn" class="btn btn-ghost" title="Export Data">
+                            <span class="fa fa-download"></span>
+                        </button>
+                        <button id="showSummaryBtn" class="btn btn-ghost" title="Show Summary">
+                            <span class="fa fa-sum"></span>
+                        </button>
+                        <button id="refreshBtn" class="btn btn-ghost" title="Refresh Table">
+                            <span class="fas fa-sync-alt"></span>
+                        </button>
+                        <button
+                        id="chooseColBtn"
+                        class="btn btn-ghost"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal-select-column"
+                        title="Choose Columns To Show"
+                        >
+                            <span class="fa fa-list-alt"></span>
+                        </button>
+                        <button id="incrDecimals" class="btn btn-ghost" title="Increase decimal points">
+                            <span class="fa fa-chevron-left"></span>
+                        </button>
+                        <button id="decrDecimals" class="btn btn-ghost" title="Decrease decimal points">
+                            <span class="fa fa-chevron-right"></span>
+                        </button>
+                        <button id="multiUpdate" class="btn btn-ghost" title="Update multiple rows">
+                            <span class="fas fa-pencil-alt"></span>
+                        </button>
+                        <button id="thousandSepBtn" class="btn btn-ghost" title="Thousand Separator">
+                            <span class="fa fa-SingleQuote"></span>
+                        </button>
+                        <button id="formatColumn" class="btn btn-ghost" title="Format Columns">
+                            <span class="fas fa-server"></span>
+                        </button>
+                        <button id="copyTable" class="btn btn-ghost" title="Copy Table">
+                            <span class="fas fa-copy"></span>
+                        </button>
+                        <button
+                        id="viewQuery"
+                        class="btn btn-ghost hidden"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modal-get-viewQuery"
+                        title="View Create Statement"
+                        >
+                            <span class="fas fa-database"></span>
+                        </button>
+                    </div> -->
+
+                    <!-- Right Pager -->
+                    <!-- <div class="flex items-center justify-end space-x-3 text-sm">
+                        <button id="firstPageBtn" title="First Page">
+                            <span class="fa fa-step-backward"></span>
+                        </button>
+                        <button id="prevPageBtn" title="Previous Page">
+                            <span class="fa fa-backward"></span>
+                        </button>
+                            <span>
+                            Page <input
+                                id="currentPage"
+                                type="text"
+                                value="1"
+                                class="w-10 border border-border rounded px-1 text-center"
+                            /> of 0
+                            </span>
+                        <button id="nextPageBtn" title="Next Page">
+                            <span class="fa fa-forward"></span>
+                        </button>
+                        <button id="lastPageBtn" title="Last Page">
+                            <span class="fa fa-step-forward"></span>
+                        </button>
+                        <span id="totalRecordsPanel" class="pl-4">1-1000 of 0</span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </main>
+    <script src="./coi-serviceworker.js"></script>
+    <script type="module" src="./assets/js/pixel.js"></script>
+    <script type="module" src="./page_assets/sqlEditor/js/script.js"></script>
+
+</body>
+</html>

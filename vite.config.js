@@ -15,9 +15,9 @@ export default defineConfig({
       input: {
         main: path.resolve(__dirname, 'src/index.html'), 
         // grid: path.resolve(__dirname, 'src/tableDisplay.html'),
-        // editor: path.resolve(__dirname, 'src/editorPage.html'),
+        editor: path.resolve(__dirname, 'src/editorPage.html'),
         // sqlEditor: path.resolve(__dirname, 'src/sqlEditor.html'),
-        home: path.resolve(__dirname, 'src/main.html'),
+        home: path.resolve(__dirname, 'src/homePage.html'),
         // policy: path.resolve(__dirname, 'src/privacyPolicy.html'),
         // notebook: path.resolve(__dirname, 'src/PyNotebook.html'),
         // notebookJS: path.resolve(__dirname, 'src/JsNotebook.html'),

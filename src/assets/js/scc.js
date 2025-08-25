@@ -10,7 +10,7 @@ import { WebR } from "https://webr.r-wasm.org/latest/webr.mjs";
 const btn_class =   { 
                         customClass:    {
                                             confirmButton: 'btn btn-primary',
-                                            cancelButton: 'btn btn-tertiary ms-3'
+                                            cancelButton: 'btn btn-secondary ms-3'
                                         },
                         buttonsStyling: false,
                         reverseButtons: true,
@@ -67,7 +67,7 @@ export async function postData(url = '', data = {}) {
 
 export function confirmBox(title, content, action = null, cancel = null) {
     if (cancel){
-        btn_class.customClass.confirmButton =  'btn btn-primary ms-auto me-3' 
+        btn_class.customClass.confirmButton =  'btn btn-primary me-3' 
         btn_class.showCancelButton = true
     } else {
         btn_class.customClass.confirmButton =  'btn btn-primary' 
