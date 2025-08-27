@@ -327,7 +327,7 @@ body {
 .dot {
   width: 12px;
   height: 12px;
-  background-color: rgba(255, 255, 255, 0.938);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
   animation: bounce 0.6s infinite alternate;
 }
@@ -362,7 +362,7 @@ li button.del-btn:hover {
 }
 
 .del-btn:hover span {
-  color: black; /* Color on hover */
+  color: var(--color-primary); /* Color on hover */
 }
 
 li button.edit-btn:hover {
@@ -374,7 +374,7 @@ li button.edit-btn:hover {
 }
 
 .edit-btn:hover span {
-  color: black; /* Color on hover */
+  color: var(--color-primary); /* Color on hover */
 }
 
 .card-body {

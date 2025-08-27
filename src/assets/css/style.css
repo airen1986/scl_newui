@@ -1109,7 +1109,7 @@
   }
 
   .td-joint-input > input {
-    @apply flex-1 w-full border border-input rounded-l rounded-e-none px-1 py-0.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary bg-background text-foreground;
+    @apply px-1 py-0.5 appearance-none focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive shrink-0 border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] rounded-l rounded-e-none;
   }
 
   .td-joint-input > svg {
@@ -1142,6 +1142,6 @@
   animation: stripes 1s linear infinite;
 }
 
-.swal2-actions {
-  @apply flex justify-between w-full;
+.swal2-actions{
+  margin: 0px !important;
 }

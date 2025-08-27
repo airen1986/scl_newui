@@ -1,10 +1,11 @@
 import CodeMirror from "codemirror";
 import 'codemirror/theme/dracula.css';
+import 'codemirror/theme/yonce.css';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/python/python.js';
 import { confirmBox, executePython,executeQuery, get_cl_element,fetchData,addDefaultModel,fetchSchema } from "../../../assets/js/scc"
 const params = new URLSearchParams(window.location.search)
-import * as bootstrap from 'bootstrap'
+// import * as bootstrap from 'bootstrap'
 import JSZip from "jszip";
 
 let modelName = params.get('modelName');
@@ -17,19 +18,13 @@ let schema = {}
 
     
 window.onload = async function () {  
-  const modalElements = document.querySelectorAll('.modal');
-  modalElements.forEach(modalElement => {
-    if (!bootstrap.Modal.getInstance(modalElement)) {
-      new bootstrap.Modal(modalElement);
-    }
-  });
   schema = await fetchSchema()
 
   editor = CodeMirror.fromTextArea(document.getElementById("editorText"), {
       lineNumbers: true,
       lineWrapping:true,
       mode: "python",
-      theme:"dracula",
+      theme:"yonce",
       autoRefresh:true,
       autofocus:true,   
       tabSize:4,
@@ -80,6 +75,12 @@ window.onload = async function () {
   }
 
   buildFileStructure()
+
+  document.getElementById('upload_zip').onclick = function(){
+    const updateScript = document.getElementById('modal-file-upload')
+    updateScript.classList.remove('hidden')
+    updateScript.classList.add('flex')
+  }
 
   let query = `SELECT FileName,FileData FROM S_ExecutionFiles WHERE FilePath = ? AND Status = 'Active' `
   const query_res = await executeQuery("fetchData",modelName, query,['requirements.txt'])
@@ -196,7 +197,7 @@ function displayOutput(stderr) {
 }
 
 async function saveFileContent(){
-  const selected_el = document.getElementById('filesDiv').querySelector("li.selected-button")
+  const selected_el = document.getElementById('filesDiv').querySelector("li.selectedValue")
   if (selected_el){
     const filePath = selected_el.getAttribute('filepath')
     const fileName = selected_el.innerText
@@ -227,7 +228,7 @@ async function uploadZipFile() {
   const file = document.getElementById('zipFile').files[0];
   if (file) {
     this.setAttribute("disabled", "")
-    this.innerHTML = `<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>`
+    this.innerHTML = `<span class="animate-spin border-2 border-t-transparent border-white rounded-full w-4 h-4 inline-block"></span>`
     let deleteQuery = "DELETE FROM S_ExecutionFiles";
     await executeQuery('deleteData', modelName, deleteQuery);
 
@@ -264,8 +265,7 @@ async function uploadZipFile() {
 
       buildFileStructure();
 
-      const bs_modal = bootstrap.Modal.getInstance(document.getElementById('modal-file-upload'))
-      bs_modal.hide()
+      document.getElementById('modal-file-upload').classList.add('hidden')
       confirmBox('Success', 'File Uploaded Successfully');
     };
 
@@ -289,8 +289,8 @@ function get_scc_tree(folderDict,parent_folder = false ,fileName = null,filePath
             cn.classList.remove("selectedFolder");
           }
 
-          for (let cn of document.getElementById('filesDiv').querySelectorAll("li.selected-button")) {
-            cn.classList.remove("selected-button");
+          for (let cn of document.getElementById('filesDiv').querySelectorAll("li.selectedValue")) {
+            cn.classList.remove("selectedValue");
           }
           this.classList.add("selectedFolder");
           e.preventDefault();
@@ -313,7 +313,7 @@ function get_scc_tree(folderDict,parent_folder = false ,fileName = null,filePath
       let fileElement = get_tree_li_element(folderName, 'fa-file-alt', folderDict[folderName], filePath, fileName);
 
       fileElement.onclick = async function (e) {
-        if (!this.classList.contains("selected-button")) {
+        if (!this.classList.contains("selectedValue")) {
           document.getElementById('outputTxt').innerHTML = ''
           document.getElementById("loadingOverlay").classList.remove("hidden");
           await saveFileContent()
@@ -322,14 +322,14 @@ function get_scc_tree(folderDict,parent_folder = false ,fileName = null,filePath
           buttonsDiv.style.display = ""
 
 
-          for (let cn of document.getElementById('filesDiv').querySelectorAll("li.selected-button")) {
-            cn.classList.remove("selected-button");
+          for (let cn of document.getElementById('filesDiv').querySelectorAll("li.selectedValue")) {
+            cn.classList.remove("selectedValue");
           }
 
           for (let cn of document.getElementById('filesDiv').querySelectorAll("li.selectedFolder")) {
             cn.classList.remove("selectedFolder");
           }
-          this.classList.add("selected-button");
+          this.classList.add("selectedValue");
           e.preventDefault();
           selected_folder_el = null
           selected_li_el = this
@@ -364,7 +364,7 @@ function get_tree_li_element(level_name, icon_class,FilePath = null,newFilePath 
   let el = get_cl_element("li", null, null);
   if (newFilePath && fileName && FilePath){
     if (level_name == fileName && FilePath == newFilePath){
-      el.classList.add('selected-button')
+      el.classList.add('selectedValue')
     }
   }
   el.setAttribute('title',level_name)
@@ -449,7 +449,7 @@ function hideCanvas(){
 function create_add_file_input() {
   let inputGroup = get_cl_element("div","input-group mb-2");
 
-  let fileInput = get_cl_element("input","form-control small-input");
+  let fileInput = get_cl_element("input","input small-input");
   fileInput.type = "text";
 
   fileInput.addEventListener("keydown", async function (e) {
@@ -477,7 +477,7 @@ function create_add_file_input() {
 
         removeFileInput();
         await buildFileStructure(inp_val,filePath);
-        const fileEL = document.getElementById('filesDiv').querySelector("li.selected-button")
+        const fileEL = document.getElementById('filesDiv').querySelector("li.selectedValue")
         if (fileEL){
           selected_li_el = fileEL
           const filepath = fileEL.getAttribute('filepath')
@@ -526,7 +526,7 @@ function removeFileInput(){
 function create_add_folder_input() {
   let inputGroup = get_cl_element("div","input-group mb-2");
 
-  let fileInput = get_cl_element("input","form-control small-input");
+  let fileInput = get_cl_element("input","input small-input");
   fileInput.type = "text";
 
   fileInput.addEventListener("keydown", async function (e) {

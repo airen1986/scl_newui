@@ -14,14 +14,14 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'src/index.html'), 
-        // grid: path.resolve(__dirname, 'src/tableDisplay.html'),
+        grid: path.resolve(__dirname, 'src/tableDisplay.html'),
         editor: path.resolve(__dirname, 'src/editorPage.html'),
-        // sqlEditor: path.resolve(__dirname, 'src/sqlEditor.html'),
+        sqlEditor: path.resolve(__dirname, 'src/sqlEditor.html'),
         home: path.resolve(__dirname, 'src/homePage.html'),
         // policy: path.resolve(__dirname, 'src/privacyPolicy.html'),
-        // notebook: path.resolve(__dirname, 'src/PyNotebook.html'),
-        // notebookJS: path.resolve(__dirname, 'src/JsNotebook.html'),
-        // notebookR: path.resolve(__dirname, 'src/RNotebook.html'),
+        notebook: path.resolve(__dirname, 'src/PyNotebook.html'),
+        notebookJS: path.resolve(__dirname, 'src/JsNotebook.html'),
+        notebookR: path.resolve(__dirname, 'src/RNotebook.html'),
         // queries: path.resolve(__dirname, 'src/Queries.html'),
       },
       output: {

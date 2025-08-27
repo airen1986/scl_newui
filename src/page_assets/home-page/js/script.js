@@ -159,6 +159,16 @@ document.addEventListener("DOMContentLoaded", async function() {
         window.open(`./editorPage.html?projectName=${projectName}&modelName=${modelName}`);
     }
 
+    document.getElementById("notebookRBtn").onclick = function(){
+        const selected_model = document.getElementById("availableModal").querySelector("li.selected-button")
+        if (!selected_model){
+            confirmBox("Alert!","Please select a model")
+            return
+        }
+        const modelName = selected_model.innerText
+        window.open(`./RNotebook.html?modelName=${modelName}`);
+    }
+
 
     document.getElementById("closeOutput").onclick = function(){
         document.getElementById("outputDiv").classList.add("hidden");    
@@ -455,7 +465,7 @@ function get_addModel_row(div_id, label_text, id, input_type, options = [], plac
 }
 
 function get_li_element(model_name) {
-    let el = get_cl_element("li", "deselected-button mb-2", null, null);
+    let el = get_cl_element("li", "deselected-button mb-2 cursor-pointer", null, null);
     
     let el_child = get_cl_element("div", "flex items-center space-x-2");
     
@@ -2128,3 +2138,24 @@ updateCloseButtonPosition();
 window.addEventListener('resize', updateCloseButtonPosition);
 const observer = new MutationObserver(updateCloseButtonPosition);
 observer.observe(document.getElementById("outputTxt"), { childList: true, subtree: true });
+
+
+document.getElementById("pyNotebook").onclick = function(){
+    const selected_model = document.getElementById("availableModal").querySelector("li.selected-button")
+    if (!selected_model){
+        confirmBox("Alert!","Please select a model")
+        return
+    }
+    const modelName = selected_model.innerText
+    window.open(`./PyNotebook.html?modelName=${modelName}`);
+}
+
+document.getElementById("notebookJS").onclick = function(){
+    const selected_model = document.getElementById("availableModal").querySelector("li.selected-button")
+    if (!selected_model){
+        confirmBox("Alert!","Please select a model")
+        return
+    }
+    const modelName = selected_model.innerText
+    window.open(`./JsNotebook.html?modelName=${modelName}`);
+}

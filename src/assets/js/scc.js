@@ -67,7 +67,7 @@ export async function postData(url = '', data = {}) {
 
 export function confirmBox(title, content, action = null, cancel = null) {
     if (cancel){
-        btn_class.customClass.confirmButton =  'btn btn-primary me-3' 
+        btn_class.customClass.confirmButton =  'btn btn-primary ml-auto mr-3' 
         btn_class.showCancelButton = true
     } else {
         btn_class.customClass.confirmButton =  'btn btn-primary' 
