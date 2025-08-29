@@ -1,6 +1,6 @@
 import { get_cl_element, confirmBox, executeQuery } from "../../../assets/js/scc"
 import * as gm from "../../../core/gridMethods"
-import * as bootstrap from 'bootstrap'
+// import * as bootstrap from 'bootstrap'
 import flatpickr from "flatpickr"
 import 'flatpickr/dist/flatpickr.min.css'
 
@@ -43,12 +43,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         init()
     }
 
-    const modalElements = document.querySelectorAll('.modal');
-    modalElements.forEach(modalElement => {
-        if (!bootstrap.Modal.getInstance(modalElement)) {
-            new bootstrap.Modal(modalElement);
-        }
-    });
+    // const modalElements = document.querySelectorAll('.modal');
+    // modalElements.forEach(modalElement => {
+    //     if (!bootstrap.Modal.getInstance(modalElement)) {
+    //         new bootstrap.Modal(modalElement);
+    //     }
+    // });
 })
 
 async function init() {
@@ -461,7 +461,7 @@ function get_table_headers(header_rows) {
 }
 
 
-async function get_table_data(col_names ,page_num = 1) {    
+async function get_table_data(col_names ,page_num = 1) {   
     current_row_id = 0
     initial_row_values = []
     currentPage = page_num
@@ -615,7 +615,7 @@ document.getElementById("lastPageBtn").onclick = function (e) {
 }
 
 
-document.getElementById("refreshBtn").parentNode.onclick = function (e) {
+document.getElementById("refreshBtn").onclick = function (e) {
     Promise.resolve(get_sort()).then(reload_table_data);
 }
 
@@ -715,51 +715,52 @@ document.getElementById("excelDownloadBtn").onclick = async function (e) {
     document.getElementById("data-loader").style.display = "none"
 }
 
-// document.getElementById("importExcel").onclick = async function (e) {
-//     const fileInput = document.getElementById("fileUpload");
-//     const loader = document.getElementById("data-loader");
+document.getElementById("importExcel").onclick = async function (e) {
+    const fileInput = document.getElementById("fileUpload");
+    const loader = document.getElementById("data-loader");
 
-//     if (!fileInput.files[0]) {
-//         confirmBox('Alert!', 'Please choose a file to upload');
-//         return;
-//     }
+    if (!fileInput.files[0]) {
+        confirmBox('Alert!', 'Please choose a file to upload');
+        return;
+    }
 
-//     loader.style.display = "";
-//     let selected_file = fileInput.files[0];
-//     const file = await selected_file.arrayBuffer();
-//     const data = await gm.uploadExcel(modelName, [tableName.toLowerCase()], file);
-//     loader.style.display = "none";
+    loader.style.display = "";
+    let selected_file = fileInput.files[0];
+    const file = await selected_file.arrayBuffer();
+    const data = await gm.uploadExcel(modelName, [tableName.toLowerCase()], file);
+    loader.style.display = "none";
 
-//     const sheetNamesOriginal = Object.keys(data);
-//     const sheetNamesLower = sheetNamesOriginal.map(el => el.toLowerCase());
-//     const idx = sheetNamesLower.indexOf(tableName.toLowerCase());
+    const sheetNamesOriginal = Object.keys(data);
+    const sheetNamesLower = sheetNamesOriginal.map(el => el.toLowerCase());
+    const idx = sheetNamesLower.indexOf(tableName.toLowerCase());
 
-//     if (idx > -1) {
-//         const sheetName = sheetNamesOriginal[idx];
-//         const result = data[sheetName];
+    if (idx > -1) {
+        const sheetName = sheetNamesOriginal[idx];
+        const result = data[sheetName];
 
-//         if (typeof result === 'string') {
-//             if (result === "Only header inserted") {
-//                 confirmBox("Success!", "Only header inserted");
-//             } else if (result === "No valid headers found" || result === "No column matches with existing table") {
-//                 confirmBox("Error!", result);
-//             } else {
-//                 confirmBox("Error!", result);
-//             }
-//         } else if (typeof result === 'number') {
-//             if (result > 0) {
-//                 reload_table_data();
-//                 confirmBox("Success!", "Total Rows: " + result + " Imported");
-//             } else {
-//                 confirmBox("Info", "No row inserted");
-//             }
-//         } else {
-//             confirmBox("Error!", "Unexpected result from import");
-//         }
-//     } else {
-//         confirmBox("Error!", "No sheet matches with table name");
-//     }
-// };
+        if (typeof result === 'string') {
+            if (result === "Only header inserted") {
+                confirmBox("Success!", "Only header inserted");
+            } else if (result === "No valid headers found" || result === "No column matches with existing table") {
+                confirmBox("Error!", result);
+            } else {
+                confirmBox("Error!", result);
+            }
+        } else if (typeof result === 'number') {
+            if (result > 0) {
+                reload_table_data();
+                confirmBox("Success!", "Total Rows: " + result + " Imported");
+            } else {
+                confirmBox("Info", "No row inserted");
+            }
+        } else {
+            confirmBox("Error!", "Unexpected result from import");
+        }
+    } else {
+        confirmBox("Error!", "No sheet matches with table name");
+    }
+    document.getElementById('modal-file-upload').classList.add('hidden')
+};
 
 
 
@@ -955,7 +956,7 @@ document.getElementById("showSummaryBtn").onclick = async function (e) {
     let tfoot = table_el.querySelector("tr.footer")
     
     if (numeric_columns.length > 0) {
-        if (tfoot.style.display === "none") {
+        if (tfoot.classList.contains("hidden")) {
             document.getElementById("data-loader").style.display = ""
             const data = await gm.getSummary(modelName, tableName, numeric_columns, where_in, where_not_in, like_query)
             document.getElementById("data-loader").style.display = "none"
@@ -969,10 +970,9 @@ document.getElementById("showSummaryBtn").onclick = async function (e) {
                 tfoot.childNodes[idx].innerText = get_col_string(col_name, val);
                 tfoot.childNodes[idx].setAttribute("title", val)
             }
-            tfoot.style.removeProperty("display");
+            tfoot.classList.remove("hidden")
         } else {
-
-            tfoot.style.display = "none";
+            tfoot.classList.add("hidden")
         }
 
     }
@@ -1017,21 +1017,21 @@ function move_elements(bt_type, src_id, dest_id) {
     }
 }
 
-// document.getElementById("allLeft").onclick = function (e) {
-//     move_elements(this.getAttribute("bttype"), this.getAttribute("src"), this.getAttribute("dest"))
-// }
+document.getElementById("allLeft").onclick = function (e) {
+    move_elements(this.getAttribute("bttype"), this.getAttribute("src"), this.getAttribute("dest"))
+}
 
-// document.getElementById("allRight").onclick = function (e) {
-//     move_elements(this.getAttribute("bttype"), this.getAttribute("src"), this.getAttribute("dest"))
-// }
+document.getElementById("allRight").onclick = function (e) {
+    move_elements(this.getAttribute("bttype"), this.getAttribute("src"), this.getAttribute("dest"))
+}
 
-// document.getElementById("selectedLeft").onclick = function (e) {
-//     move_elements(this.getAttribute("bttype"), this.getAttribute("src"), this.getAttribute("dest"))
-// }
+document.getElementById("selectedLeft").onclick = function (e) {
+    move_elements(this.getAttribute("bttype"), this.getAttribute("src"), this.getAttribute("dest"))
+}
 
-// document.getElementById("selectedRight").onclick = function (e) {
-//     move_elements(this.getAttribute("bttype"), this.getAttribute("src"), this.getAttribute("dest"))
-// }
+document.getElementById("selectedRight").onclick = function (e) {
+    move_elements(this.getAttribute("bttype"), this.getAttribute("src"), this.getAttribute("dest"))
+}
 
 function populate_columns(available_column, selected_column) {
     document.getElementById("availableColumn").innerHTML = ""
@@ -1117,6 +1117,15 @@ document.getElementById("saveColumnSelection").onclick = async function (e) {
         get_columns()
     }
 
+    document.getElementById('modal-select-column').classList.add('hidden')
+
+}
+
+document.getElementById("addNewColBtn").onclick = async function (e) {
+    document.getElementById("newColName").value = ""
+    document.getElementById("addColumnSelect").value = 0
+    document.getElementById('modal-add-column').classList.remove('hidden')
+
 }
 
 document.getElementById("addNewColumn").onclick = async function (e) {
@@ -1163,8 +1172,7 @@ document.getElementById("addNewColumn").onclick = async function (e) {
         if (x) {
 
             get_columns();
-            const bs_modal = bootstrap.Modal.getInstance(document.getElementById("modal-add-column"))
-            bs_modal.hide()
+            document.getElementById('modal-add-column').classList.add('hidden')
         }
     } else {
         confirmBox("Alert!", "Please Enter Column Name")
@@ -1189,8 +1197,7 @@ document.getElementById("removeColumn").onclick = async function (e) {
                 confirmBox("Alert!", x.message)
             }
         }
-        const bs_modal = bootstrap.Modal.getInstance(document.getElementById("modal-remove-column"))
-        bs_modal.hide()
+        document.getElementById('modal-remove-column').classList.add('hidden')
 
     }
 
@@ -1209,8 +1216,7 @@ document.getElementById("delNewColBtn").onclick = async function (e) {
         const selected_column = col_names.filter(function (value, index, arr) { return index > 0; })
         await gm.updateColumnOrders(modelName,tableName,selected_column)
     } else {
-        const bs_modal = new bootstrap.Modal(document.getElementById("modal-remove-column"))
-        bs_modal.show()
+        document.getElementById('modal-remove-column').classList.remove('hidden')
     }
 
 }
@@ -1234,7 +1240,9 @@ document.getElementById("deleteRecordsBtn").onclick = function (e) {
         } else {
             const tbl = table_el.querySelector("tbody")
             const total_len = tbl.childNodes.length - 2
+            
             const selected_len = tbl.querySelectorAll("input:checked").length
+
             if (selected_len == 0) {
                 confirmBox("Alert!", "Please select atleast one row to proceed?")
             } else if (selected_len < total_len / 2) {
@@ -1249,7 +1257,7 @@ document.getElementById("deleteRecordsBtn").onclick = function (e) {
 
 
 document.getElementById('multiUpdate').onclick = function (e) {
-    if (document.getElementById("modal-update-column").style.display == "none") {
+    if (document.getElementById("modal-update-column").classList.contains("hidden")) {
         const selected_header = table_el.querySelector('thead .selected_col')
         if (selected_header) {
             update_column_modal(selected_header.innerText)
@@ -1302,8 +1310,7 @@ document.getElementById("updateColumn").onclick = async function (e) {
                 }
             }
         }
-        const bs_modal = bootstrap.Modal.getInstance(document.getElementById("modal-update-column"))
-        bs_modal.hide()
+        document.getElementById("modal-update-column").classList.add("hidden")
         confirmBox("Success!", `Total of ${x} rows updated`)
     }
 }
@@ -1345,7 +1352,7 @@ function multi_update(e) {
     if (e.key == "F2" && editable_flag) {
         const selected_header = table_el.querySelector('thead .selected_col')
         if (selected_header) {
-            if (document.getElementById("modal-update-column").style.display == "none") {
+            if (document.getElementById("modal-update-column").classList.contains("hidden")) {
                 update_column_modal(selected_header.innerText)
                 e.preventDefault()
             }
@@ -1359,8 +1366,6 @@ function multi_update(e) {
 function update_column_modal(col_name) {
     let input_el = document.getElementById("colValue")
     input_el.setAttribute('Autocomplete', 'off')
-    input_el.style.borderBottomRightRadius = 0
-    input_el.style.borderTopRightRadius = 0
     if (input_el.parentNode.classList.contains("awesomplete")) {
         let other_inp = input_el.cloneNode(true)
         let pnode = input_el.parentNode.parentNode
@@ -1413,8 +1418,7 @@ function update_column_modal(col_name) {
     else {
         input_el.type = "text"
     }
-    const bs_modal = new bootstrap.Modal(document.getElementById("modal-update-column"))
-    bs_modal.show()
+    document.getElementById("modal-update-column").classList.remove("hidden")
 
 }
 
@@ -1566,10 +1570,8 @@ async function update_row(tr) {
             const x = await gm.updateRow(modelName, tableName, updated_row[0], update_dict, document.getElementById("selectAll").parentNode.id)
             const table = table_el.querySelector('table')
             let updtd_row = get_table_row(updated_row)
-            console.log(updated_row);
             
             var leftC = 0;
-            console.log(freeze_col_num);
             
             for (var i = 0; i < freeze_col_num; i++) {
                 leftC += table.rows[0].cells[i].clientWidth + 1;
@@ -1878,8 +1880,7 @@ document.getElementById("formatColumn").onclick = function (e) {
 
 
         }
-        const bs_modal = new bootstrap.Modal(document.getElementById("modal-format-column"))
-        bs_modal.show()
+        document.getElementById('modal-format-column').classList.remove('hidden')
     } else {
         confirmBox("Alert!", "Please select a column")
     }
@@ -2069,8 +2070,8 @@ document.getElementById("updateFormats").onclick = async function (e) {
 
 
 
-    const bs_modal = bootstrap.Modal.getInstance(document.getElementById("modal-format-column"))
-    bs_modal.hide()
+    document.getElementById('modal-format-column').classList.add('hidden')
+
     await gm.setTableFormatter(modelName, tableName, col_name, parameter_dict)
     reload_table_data()
     let el = table_el.querySelector('tr.insert')
@@ -2221,9 +2222,10 @@ function copyArrayToClipboard(array) {
     copyTextToClipboard(csv);
 }
 
-document.getElementById("modal-file-upload").addEventListener('show.bs.modal', function () {
+document.getElementById("excelUploadBtn").onclick = function () {
     document.getElementById("fileUpload").value = ""
-})
+    document.getElementById('modal-file-upload').classList.remove('hidden')
+}
 
 function get_icon_class(col_name) {
     let icon_class = "fa-sort"

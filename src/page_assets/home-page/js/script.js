@@ -605,7 +605,7 @@ function get_accordian(group_name, table_list) {
 
     // Accordion header (button)
     let button = get_cl_element("button",
-        "w-full flex justify-between items-center pl-6 pr-3 py-6 bg-transparent rounded-t focus:outline-none accordion-header",
+        "w-full flex justify-between items-center pl-6 pr-3 py-6 bg-transparent rounded-t cursor-pointer focus:outline-none accordion-header",
         accordian_id + "_head",
         get_cl_element("span", "font-medium text-card-foreground", null, document.createTextNode(group_name))
     )
@@ -2158,4 +2158,24 @@ document.getElementById("notebookJS").onclick = function(){
     }
     const modelName = selected_model.innerText
     window.open(`./JsNotebook.html?modelName=${modelName}`);
+}
+
+document.getElementById("sqlEditor").onclick = function(){
+    const selected_model = document.getElementById("availableModal").querySelector("li.selected-button")
+    if (!selected_model){
+        confirmBox("Alert!","Please select a model")
+        return
+    }
+    const modelName = selected_model.innerText
+    window.open(`./SQLiteStudio/playground/client.html?modelName=${modelName}`);
+}
+
+document.getElementById("querySheet").onclick = function(){
+    const selected_model = document.getElementById("availableModal").querySelector("li.selected-button")
+    if (!selected_model){
+        confirmBox("Alert!","Please select a model")
+        return
+    }
+    const modelName = selected_model.innerText
+    window.open(`./Queries.html?modelName=${modelName}`);
 }

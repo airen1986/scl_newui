@@ -101,46 +101,46 @@
                             <tbody>
             
                                 <tr class="px-2 md:px-4 py-2 flex items-center gap-1">     
-                                    <td class="btn-sm-icon-outline" id="excelDownloadBtn" title="Export Data">
+                                    <td class="btn-sm-icon-outline text-muted-foreground hover:text-primary" id="excelDownloadBtn" title="Export Data">
                                         <span class="fa fa-download"></span>
                                     </td>
                                     
-                                    <td class="btn-sm-icon-outline" id="showSummaryBtn" title="Show Summary">
+                                    <td class="btn-sm-icon-outline text-muted-foreground hover:text-primary" id="showSummaryBtn" title="Show Summary">
                                         <span class="fa fa-sum"></span>
                                     </td>
                                     
-                                    <td class="btn-sm-icon-outline" id="refreshBtn" title="Refresh Table">
+                                    <td class="btn-sm-icon-outline text-muted-foreground hover:text-primary" id="refreshBtn" title="Refresh Table">
                                         <span class="fas fa-sync-alt"></span>
                                     </td>
-                                    <td id="chooseColBtn" class="btn-sm-icon-outline" title="Choose Columns To Show" 
+                                    <td id="chooseColBtn" class="btn-sm-icon-outline text-muted-foreground hover:text-primary" title="Choose Columns To Show" 
                                         onclick="document.getElementById('modal-select-column').classList.remove('hidden')">
                                         <span class="fa fa-list-alt"></span>
                                     </td>
-                                    <td id="incrDecimals" class="btn-sm-icon-outline" title="Increase decimal points">
+                                    <td id="incrDecimals" class="btn-sm-icon-outline text-muted-foreground hover:text-primary" title="Increase decimal points">
                                         <span class="fa fa-chevron-left"></span>
                                     </td>
-                                    <td id="decrDecimals" class="btn-sm-icon-outline" title="Decrease decimal points">
+                                    <td id="decrDecimals" class="btn-sm-icon-outline text-muted-foreground hover:text-primary" title="Decrease decimal points">
                                         <span class="fa fa-chevron-right"></span>
                                     </td>
-                                    
-                                    <td id="multiUpdate" title="Update multiple rows" class="btn-sm-icon-outline">
+
+                                    <td id="multiUpdate" title="Update multiple rows" class="btn-sm-icon-outline text-muted-foreground hover:text-primary">
                                         <span class="fas fa-pencil-alt"></span>
                                     </td>
-                                    
-                                    
-                                    <td id="thousandSepBtn" class="btn-sm-icon-outline" title="Thousand Separator">
+
+
+                                    <td id="thousandSepBtn" class="btn-sm-icon-outline text-muted-foreground hover:text-primary" title="Thousand Separator">
                                         <span class="fa fa-SingleQuote"></span>
                                     </td>
-                                    
-                                    
-                                    <td id="formatColumn" title="Format Columns" class="btn-sm-icon-outline">
+
+
+                                    <td id="formatColumn" title="Format Columns" class="btn-sm-icon-outline text-muted-foreground hover:text-primary">
                                         <span class="fas fa-server"></span>
                                     </td>
-                                    
-                                    <td id="copyTable" title="Copy Table" class="btn-sm-icon-outline">
+
+                                    <td id="copyTable" title="Copy Table" class="btn-sm-icon-outline text-muted-foreground hover:text-primary">
                                         <span class="fas fa-copy"></span>
                                     </td>
-                                    <td id="viewQuery" title="View Create Statement" class="btn-sm-icon-outline hidden" 
+                                    <td id="viewQuery" title="View Create Statement" class="btn-sm-icon-outline hidden text-muted-foreground hover:text-primary" 
                                         onclick="document.getElementById('modal-get-viewQuery').classList.remove('hidden')">
                                         <span class="fas fa-database"></span>
                                     </td>
@@ -151,18 +151,18 @@
                         </table>
             
                     </div>
-                    <div class="col-lg-6">
-                        <table id="pagerDetailsSection">
+                    <div class="col-lg-6 pr-4">
+                        <table id="pagerDetailsSection" class="ml-auto">
             
                             <tbody>
             
                                 <tr class="px-2 md:px-4 py-2 flex items-center gap-1">
             
                                     <td id="firstPageBtn" title="First Page" class="btn-sm-icon-outline">
-                                        <span class="fa fa-step-backward"></span>
+                                        <span class="fa-solid fa-angles-left"></span>
                                     </td>
                                     <td id="prevPageBtn" title="Previous Page" class="btn-sm-icon-outline">
-                                        <span class="fa fa-backward"></span>
+                                        <span class="fa-solid fa-angle-left"></span>
                                     </td>
                                     <td>
                                         Page <input id="currentPage" type="text" value="1" class="h-8 w-12 text-center rounded-md border border-gray-300 bg-white 
@@ -172,10 +172,10 @@
                                                 focus:shadow-md"> of 0
                                     </td>
                                     <td id="nextPageBtn" title="Next Page" class="btn-sm-icon-outline">
-                                        <span class="fa fa-forward"></span>
+                                        <span class="fa-solid fa-angle-right"></span>
                                     </td>
                                     <td id="lastPageBtn" title="Last Page" class="btn-sm-icon-outline">
-                                        <span class="fa fa-step-forward"></span>
+                                        <span class="fa-solid fa-angles-right"></span>
                                     </td>
                                     <td id="totalRecordsPanel" style="padding-left:20px;">
                                         1-1000 of 0

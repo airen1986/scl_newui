@@ -5,9 +5,6 @@ import 'codemirror/mode/javascript/javascript.js';
 import "codemirror/addon/edit/closebrackets.js";
 import "codemirror/addon/edit/matchbrackets.js";
 import "codemirror/addon/comment/comment.js";
-import 'codemirror/addon/hint/show-hint.css';
-import 'codemirror/addon/hint/show-hint.js';
-import 'codemirror/addon/hint/javascript-hint.js';
 import {consoleNotebookOutput, get_cl_element,executeQuery} from '../../../assets/js/scc'
 import { JavascriptEvaluator } from "./eval";
 import { createCodeEditor } from "./script";
@@ -31,22 +28,9 @@ export function createCodeMirrorEditor(kernelId, modelName, CellId, content, Not
     autoCloseBrackets:true,
     extraKeys: {
       "Ctrl-/": "toggleComment",
-      "Ctrl-Space": "autocomplete", // trigger manually too
       "Ctrl-Enter": async (cm) => executeCode(editor, cell, jsRunner, modelName, CellId, NotebookId),
       "Shift-Enter": async (cm) => runAndMoveToNextCell(editor, cell, jsRunner, modelName, CellId, NotebookId),
     },
-  });
-  CodeMirror.commands.autocomplete = function(cm) {
-    CodeMirror.showHint(cm, customJsHint, { completeSingle: false });
-  };
-  // 🧠 Trigger autocomplete while typing
-  editor.on("inputRead", (cm, event) => {
-    if (
-      !cm.state.completionActive && // Prevent re-entry
-      event.text[0].match(/[\w.]/) // Alphanumeric or dot
-    ) {
-      CodeMirror.commands.autocomplete(cm, null, { completeSingle: false });
-    }
   });
 
   editor.addKeyMap({
@@ -67,54 +51,6 @@ export function createCodeMirrorEditor(kernelId, modelName, CellId, content, Not
   };
 
   return editor;
-}
-
-const arrayMethods = [
-  "map",
-  "filter",
-  "reduce",
-  "forEach",
-  "find",
-  "findIndex",
-  "some",
-  "every",
-  "includes",
-  "slice",
-  "splice",
-  "push",
-  "pop",
-  "shift",
-  "unshift",
-  "concat",
-  "join",
-  "reverse",
-  "sort",
-  "indexOf",
-  "lastIndexOf",
-  "flat",
-  "flatMap",
-];
-
-
-function customJsHint(cm) {
-  const cursor = cm.getCursor();
-  const token = cm.getTokenAt(cursor);
-
-  // Look for a dot before the current word
-  if (token.string === "." || (cm.getRange(CodeMirror.Pos(cursor.line, token.start - 1), CodeMirror.Pos(cursor.line, token.start)) === ".")) {
-    return {
-      list: arrayMethods.map(m => ({
-        text: m,
-        displayText: m + "()",
-        className: "cm-array-method"
-      })),
-      from: CodeMirror.Pos(cursor.line, token.end),
-      to: CodeMirror.Pos(cursor.line, token.end)
-    };
-  }
-
-  // Fallback to default JavaScript hints
-  return CodeMirror.hint.javascript(cm) || { list: [] };
 }
 
 async function runAndMoveToNextCell (editor, cell, jsRunner, modelName, CellId, NotebookId){

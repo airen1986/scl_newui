@@ -3,6 +3,8 @@ div.test {
     height: 92vh;
     width: 100%;
     overflow: auto;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
 }
 
 .fa-sum:before {

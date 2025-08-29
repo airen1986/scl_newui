@@ -1632,8 +1632,7 @@ document.getElementById("ok-query").onclick =async function(){
 
     await fetchData('home','checkOrCreateView',{view_name:tableName,view_query:view_query,model_name:modelName,isExist:true})
     document.getElementById("queryInput").value = view_query
-    const bs_modal = bootstrap.Modal.getInstance(document.getElementById("modal-get-viewQuery"))
-    bs_modal.hide()
+    document.getElementById('modal-get-viewQuery').classList.add('hidden')
     init()
     confirmBox("Success","View updated successfully")
 }
